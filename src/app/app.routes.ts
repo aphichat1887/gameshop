@@ -17,6 +17,7 @@ export const routes: Routes = [
     { path: 'creategame', component: Creategame },
     { path: 'game-detail/:id', component: Gamedetail },
     { path: 'edit-game/:id', component: EditGame },
+    { path: 'history', component: History },
     { path: 'history/:userId', component: History },
     { path: 'history-user', component: HistoryUser },
     
