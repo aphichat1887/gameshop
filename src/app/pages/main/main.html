@@ -1,0 +1,38 @@
+<app-header></app-header>
+<div class="container">
+    <span *ngIf="status === 'admin'">nice to meet you, Admin</span>
+    <h1>ยินดีต้อนรับ {{ username }}</h1>
+
+    <img [src]="profileImage" alt="รูปโปรไฟล์"
+        style="width:150px; height:150px; border-radius:50%; object-fit:cover;" />
+
+    <div class="button-container">
+        <button class="btn edit" (click)="goToEditProfile()">แก้ไขโปรไฟล์</button>
+        <button class="btn logout" (click)="logout()">ออกจากระบบ</button>
+    </div>
+
+    <hr />
+
+    <!-- ค้นหา -->
+    <!-- ค้นหา -->
+    <div class="search-container">
+        <input type="text" [(ngModel)]="searchText" placeholder="🔍 ค้นหาชื่อเกม..." (keyup.enter)="searchGames()" />
+        <select [(ngModel)]="selectedCategory" (change)="searchGames()">
+            <option value="">ทั้งหมด</option>
+            <option *ngFor="let cat of categories" [value]="cat.category_id">{{ cat.category_name }}</option>
+        </select>
+        <button (click)="searchGames()">ค้นหา</button>
+    </div>
+
+
+    <h2>🎮 เกมทั้งหมด</h2>
+    <div class="games-container">
+        <div *ngFor="let game of filteredGames" class="game-card" (click)="goToGameDetail(game.game_id)">
+            <img [src]="game.game_image" alt="{{ game.game_name }}" class="game-img" />
+            <h3>{{ game.game_name }}</h3>
+            <p><strong>ราคา:</strong> {{ game.price }} บาท</p>
+            <p><small>วางขายเมื่อ: {{ game.release_date | date:'yyyy-MM-dd' }}</small></p>
+        </div>
+
+    </div>
+</div>

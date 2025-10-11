@@ -1,0 +1,40 @@
+<app-header></app-header>
+
+<div class="history-container">
+    <button mat-flat-button class="btn-back" (click)="goBack()">ย้อนกลับ</button>
+
+    <h1 class="main-title" *ngIf="username">ประวัติการทำธุรกรรมของ {{ username }}</h1>
+
+    <h2 class="section-title">ประวัติการซื้อเกม</h2>
+    <div class="game-list" *ngIf="purchasedGames.length > 0; else noGames">
+        <div class="game-card" *ngFor="let game of purchasedGames">
+            <img [src]="game.game_image" alt="{{ game.game_name }}">
+            <span>{{ game.game_name }}</span>
+        </div>
+    </div>
+    <ng-template #noGames>
+        <p class="no-data">ยังไม่มีประวัติการซื้อเกม</p>
+    </ng-template>
+
+    <h2 class="section-title">ประวัติการเติมเงิน</h2>
+    <div class="table-container" *ngIf="topUpHistory.length > 0; else noTopUps">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>จำนวน</th>
+                    <th>วันที่</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let entry of topUpHistory">
+                    <td>{{ entry.amount | number }} บาท</td>
+                    <td>{{ entry.transaction_date | date:'yyyy-MM-dd' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template #noTopUps>
+        <p class="no-data">ยังไม่มีประวัติการเติมเงิน</p>
+    </ng-template>
+
+</div>

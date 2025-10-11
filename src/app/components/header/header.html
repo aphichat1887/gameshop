@@ -1,0 +1,58 @@
+<mat-toolbar color="primary">
+    <img src="assets/images/logo.png" alt="Logo" class="logo">
+
+    <span>
+        BARON SHOP
+        <span class="role" *ngIf="status === 'admin'">Admin</span>
+    </span>
+
+    <span class="spacer"></span>
+
+    <div class="user-info" *ngIf="username">
+        <div class="wallet-display">
+            ยอดเงิน:
+            <span>{{ wallet_balance }}</span>
+            บาท
+        </div>
+        <img [src]="profileImage" alt="Profile" class="avatar">
+        <span>{{ username }}</span>
+
+
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
+
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="openTopUpDialog()">
+        <mat-icon>account_balance_wallet</mat-icon>
+        <span>เติมเงิน</span>
+    </button>
+
+    <button mat-menu-item (click)="goToProfile()">
+        <mat-icon>person</mat-icon>
+        <span>โปรไฟล์</span>
+    </button>
+
+    <button mat-menu-item *ngIf="status === 'user'" (click)="goToHistory()">
+        <mat-icon>history</mat-icon>
+        <span>ประวัติ</span>
+    </button>
+
+
+    <button mat-menu-item *ngIf="status === 'admin'" (click)="createGame()">
+        <mat-icon>add_circle</mat-icon>
+        <span>สร้างเกม</span>
+    </button>
+    <button mat-menu-item *ngIf="status === 'admin'" (click)="goToUserHistory()">
+        <mat-icon>history</mat-icon>
+        <span>ประวัติการทำธุรกรรม</span>
+    </button>
+
+    <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+    </button>
+</mat-menu>

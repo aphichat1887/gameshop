@@ -1,0 +1,40 @@
+<app-header></app-header>
+<div class="container">
+    <mat-card>
+        <h2>แก้ไขโปรไฟล์</h2>
+        <form (submit)="onUpdate($event)" enctype="multipart/form-data">
+            <mat-form-field appearance="outline">
+                <mat-label>ชื่อผู้ใช้</mat-label>
+                <input matInput id="username" type="text" [(ngModel)]="user.username" name="username" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>อีเมล</mat-label>
+                <input matInput id="email" type="email" [(ngModel)]="user.email" name="email" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>เบอร์โทรศัพท์</mat-label>
+                <input matInput id="phone_number" type="text" [(ngModel)]="user.phone_number" name="phone_number" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>รหัสผ่านใหม่</mat-label>
+                <input matInput id="password" type="password" placeholder="เว้นว่างถ้าไม่ต้องการเปลี่ยน"
+                    name="password" />
+            </mat-form-field>
+
+            <div class="file-upload">
+                <label for="profile_image" class="upload-btn">เลือกรูปโปรไฟล์</label>
+                <input id="profile_image" type="file" (change)="onFileSelected($event)" hidden />
+                <div *ngIf="previewUrl" class="preview">
+                    <img [src]="previewUrl" alt="Profile Preview" />
+                </div>
+            </div>
+
+            <button class="btn save" color="primary" type="submit">บันทึกการแก้ไข</button>
+        </form>
+
+        <p [style.color]="messageColor">{{ message }}</p>
+    </mat-card>
+</div>

@@ -1,0 +1,19 @@
+<app-header></app-header>
+
+<div class="history-container">
+    <button mat-flat-button class="btn-back" (click)="goBack()">ย้อนกลับ</button>
+
+    <h1 class="main-title">รายชื่อผู้ใช้ทั้งหมด</h1>
+
+    <div class="user-cards" *ngIf="users.length > 0; else noUsers">
+        <div class="user-card" *ngFor="let user of users" (click)="goToUserHistory(user.user_id)">
+            <img [src]="user.profile_image || 'assets/default-avatar.png'" alt="{{ user.username }}">
+            <h3>{{ user.username }}</h3>
+            <p>ยอดเงิน: {{ user.wallet_balance | number }} บาท</p>
+        </div>
+    </div>
+
+    <ng-template #noUsers>
+        <p class="no-data">ยังไม่มีผู้ใช้</p>
+    </ng-template>
+</div>

@@ -1,0 +1,141 @@
+.page-container {
+    display: flex;
+    gap: 20px;
+    /* ระยะห่างระหว่าง 2 คอลัมน์ */
+    padding: 20px;
+    margin-top: 50px;
+    background-color: #f0f0f0;
+    /* สีพื้นหลังรอบนอกสุด (ถ้ามี) */
+}
+
+/* === คอลัมน์ซ้าย === */
+.main-content {
+    flex: 3;
+    /* ให้คอลัมน์ซ้ายกว้างกว่า */
+    background-color: #FAB12F;
+    padding: 20px;
+
+    border-radius: 8px;
+}
+
+.btn-back {
+    background-color: #FA812F !important;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.game-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    background-color: #FEF3E2;
+    padding: 20px;
+    border-radius: 8px;
+    color: #333;
+}
+
+.info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+}
+
+.game-description {
+    line-height: 1.6;
+}
+
+.game-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
+    font-weight: 500;
+}
+
+.meta-price {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* === คอลัมน์ขวา === */
+.sidebar {
+    flex: 1;
+    /* ให้คอลัมน์ขวากว้างน้อยกว่า */
+    background-color: #0D0D39;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-games {
+    margin-bottom: 20px;
+
+    h3 {
+        border-bottom: 2px solid #FA812F;
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+    }
+
+    ol {
+        padding-left: 20px;
+
+        li {
+            margin-bottom: 8px;
+        }
+    }
+}
+
+.action-buttons {
+    margin-top: auto;
+    /* ดันปุ่มลงไปอยู่ด้านล่างสุดของ Sidebar */
+}
+
+/* สไตล์ปุ่มใน Sidebar */
+.action-buttons button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px 0;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+        margin-right: 8px;
+    }
+}
+
+.btn-addcart {
+    background-color: #FA812F !important;
+    color: white !important;
+}
+
+.btn-buy {
+    background-color: #FAB12F !important;
+    color: white !important;
+}
+
+.btn-edit {
+    background-color: #FA812F !important;
+    color: white !important;
+}
+
+.btn-delete {
+    background-color: #DD0303 !important;
+    color: white !important;
+}

@@ -1,0 +1,31 @@
+<app-header></app-header>
+
+<div class="container">
+    <img src="assets/images/baronshop.png" alt="baronshop">
+
+    <mat-card>
+        <h1>Login</h1>
+
+        <form (submit)="onLogin($event)">
+            <mat-form-field appearance="outline" style="width:100%;">
+                <mat-label>Email</mat-label>
+                <input matInput id="email" type="email" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width:100%;">
+                <mat-label>Password</mat-label>
+                <input matInput id="password" type="password" required>
+            </mat-form-field>
+            <p style="margin: 5px 0 15px 0;">Don't have an account?
+                <a routerLink="/register" style="color: red;">Register Now.</a>
+            </p>
+
+            <button mat-raised-button type="submit"
+                style="width:20%;margin: 0 auto; display:block;  background-color:#0D0D39; color:white; border-radius:8px; padding:12px 0;">
+                Login
+            </button>
+        </form>
+
+        <p [style.color]="messageColor">{{ message }}</p>
+    </mat-card>
+</div>

@@ -1,0 +1,43 @@
+<div class="add-game-container">
+    <h2>เพิ่มเกมใหม่</h2>
+
+    <form (ngSubmit)="addGame()" #gameForm="ngForm" enctype="multipart/form-data">
+        <mat-form-field appearance="fill">
+            <mat-label>ชื่อเกม</mat-label>
+            <input matInput name="game_name" [(ngModel)]="game_name" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>ราคา (บาท)</mat-label>
+            <input matInput type="number" name="price" [(ngModel)]="price" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>หมวดหมู่</mat-label>
+            <mat-select name="category_id" [(ngModel)]="category_id" required>
+                <mat-option *ngFor="let cat of categories" [value]="cat.category_id">
+                    {{ cat.category_name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>รายละเอียดเกม</mat-label>
+            <textarea matInput name="description" [(ngModel)]="description" rows="3"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>วันที่วางขาย</mat-label>
+            <input matInput type="date" name="release_date" [(ngModel)]="release_date" />
+        </mat-form-field>
+
+        <div class="upload-section">
+            <label for="game_image">เลือกรูปภาพเกม:</label>
+            <input type="file" id="game_image" (change)="onFileSelected($event)" />
+        </div>
+
+        <button mat-raised-button color="primary" type="submit">
+            บันทึกเกม
+        </button>
+    </form>
+</div>

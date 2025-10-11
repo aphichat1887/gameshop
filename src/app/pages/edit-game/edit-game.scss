@@ -1,0 +1,98 @@
+.edit-game-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+
+    .edit-game-card {
+        width: 100%;
+        max-width: 600px;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+        .title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .full-width {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload {
+            margin: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .upload-btn {
+                background-color: #1976d2;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background 0.3s;
+
+                &:hover {
+                    background-color: #155a9c;
+                }
+            }
+
+            .preview {
+                margin-top: 1rem;
+                width: 100%;
+                max-width: 300px;
+
+                img {
+                    width: 100%;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+                }
+            }
+        }
+
+        .save-btn {
+            display: inline-block;
+            width: 100%;
+            background-color: #4caf50;
+            color: white;
+            padding: 0.7rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 0.5rem;
+
+            &:hover {
+                background-color: #388e3c;
+            }
+        }
+
+        .delete-btn {
+            display: inline-block;
+            width: 100%;
+            background-color: #f44336;
+            color: white;
+            padding: 0.7rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+
+            &:hover {
+                background-color: #d32f2f;
+            }
+        }
+
+        .message {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+    }
+}

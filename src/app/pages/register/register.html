@@ -1,0 +1,50 @@
+<app-header></app-header>
+
+<div class="container">
+    <img src="assets/images/baronshop.png" alt="baronshop">
+
+    <mat-card>
+        <h2>สมัครสมาชิก</h2>
+
+        <form (submit)="onSubmit($event)">
+            <mat-form-field appearance="outline">
+                <mat-label>Username</mat-label>
+                <input matInput id="username" type="text" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput id="email" type="email" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Phone</mat-label>
+                <input matInput id="phone_number" type="text" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput id="password" type="password" required>
+            </mat-form-field>
+
+            <div class="file-upload">
+                <label for="profile_image" class="upload-btn">เลือกรูปโปรไฟล์</label>
+                <input type="file" id="profile_image" (change)="onFileSelected($event)" accept="image/*" required
+                    hidden>
+
+                <div *ngIf="previewUrl" class="preview">
+                    <img [src]="previewUrl" alt="Profile Preview">
+                </div>
+            </div>
+            <p style="margin: 5px 0 15px 0;">Have an account?
+                <a routerLink="" style="color: red;">Log in.</a>
+            </p>
+            <button mat-raised-button type="submit"
+                style="width:20%;margin: 0 auto; display:block;  background-color:#0D0D39; color:white; border-radius:8px; padding:12px 0;">
+                Register
+            </button>
+        </form>
+
+        <p [style.color]="messageColor">{{ message }}</p>
+    </mat-card>
+</div>

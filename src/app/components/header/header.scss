@@ -1,0 +1,89 @@
+mat-toolbar {
+    background: #0D0D39;
+    color: white;
+}
+
+mat-toolbar .logo {
+    height: 100px;
+
+    object-fit: contain;
+
+    vertical-align: middle;
+
+}
+
+app-header,
+mat-toolbar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.role {
+    color: #fff;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    span {
+        font-weight: 500;
+    }
+
+    button {
+        color: white;
+
+    }
+}
+
+.wallet-display {
+    background-color: white;
+    color: #333;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-right: 12px;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 16px;
+}
