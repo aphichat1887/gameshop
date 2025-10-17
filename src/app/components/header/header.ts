@@ -108,12 +108,21 @@ export class Header {
     this.router.navigate(['/creategame']);
   }
 
+  createCode() {
+    this.router.navigate(['/discounts']);
+  }
+
   goToUserHistory() {
     this.router.navigate(['/history-user']);
   }
 
+  goHome() {
+    this.router.navigate(['/main']);
+  }
+
   logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('cart');
     this.router.navigate(['/']);
   }
 }

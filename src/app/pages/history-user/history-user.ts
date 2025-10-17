@@ -17,12 +17,11 @@ import { Router } from '@angular/router';
 export class HistoryUser implements OnInit {
   users: any[] = [];
 
-  constructor(private http: HttpClient, private constants: Constants, private location: Location, private router: Router) {}
+  constructor(private http: HttpClient, private constants: Constants, private location: Location, private router: Router) { }
 
   ngOnInit() {
     this.http.get(`${this.constants.API_ENDPOINT}/users`).subscribe({
       next: (res: any) => {
-        // กรองเฉพาะผู้ใช้ที่ status = 'user'
         this.users = res.users.filter((u: any) => u.status === 'user');
       },
       error: (err) => console.error('โหลดข้อมูลผู้ใช้ไม่สำเร็จ', err)

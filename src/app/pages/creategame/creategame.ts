@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-// 🧱 Angular Material modules
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -11,7 +10,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Constants } from '../../config/constants';
 
@@ -23,8 +22,6 @@ import { Constants } from '../../config/constants';
     FormsModule,
     HttpClientModule,
     RouterModule,
-
-    // 🧩 Material modules
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -46,17 +43,17 @@ export class Creategame implements OnInit {
 
   categories: { category_id: number; category_name: string }[] = [];
 
-  constructor(private http: HttpClient, private constants: Constants) { }
+  constructor(private http: HttpClient, private constants: Constants,
+    private router: Router) { }
 
   ngOnInit(): void {
-    // โหลดหมวดหมู่เกมจาก API (อาจจะเป็น /categories)
     this.http.get<any[]>(`${this.constants.API_ENDPOINT}/categories`).subscribe({
       next: (res) => (this.categories = res),
       error: (err) => console.error(err),
     });
-    // ตั้งค่าวันที่อัตโนมัติเป็นวันที่ปัจจุบัน
+
     const today = new Date();
-    this.release_date = today.toISOString().split('T')[0]; // yyyy-mm-dd
+    this.release_date = today.toISOString().split('T')[0];
 
   }
 
@@ -85,6 +82,7 @@ export class Creategame implements OnInit {
       next: (res: any) => {
         alert('เพิ่มเกมสำเร็จ!');
         console.log(res);
+        this.router.navigate(['/main']);
       },
       error: (err) => {
         console.error(err);

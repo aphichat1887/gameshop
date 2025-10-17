@@ -1,17 +1,16 @@
 .page-container {
     display: flex;
     gap: 20px;
-    /* ระยะห่างระหว่าง 2 คอลัมน์ */
     padding: 20px;
     margin-top: 50px;
     background-color: #f0f0f0;
-    /* สีพื้นหลังรอบนอกสุด (ถ้ามี) */
+
 }
 
-/* === คอลัมน์ซ้าย === */
+
 .main-content {
     flex: 3;
-    /* ให้คอลัมน์ซ้ายกว้างกว่า */
+
     background-color: #FAB12F;
     padding: 20px;
 
@@ -70,10 +69,8 @@
     font-size: 1.2rem;
 }
 
-/* === คอลัมน์ขวา === */
 .sidebar {
     flex: 1;
-    /* ให้คอลัมน์ขวากว้างน้อยกว่า */
     background-color: #0D0D39;
     color: white;
     padding: 20px;
@@ -102,10 +99,8 @@
 
 .action-buttons {
     margin-top: auto;
-    /* ดันปุ่มลงไปอยู่ด้านล่างสุดของ Sidebar */
 }
 
-/* สไตล์ปุ่มใน Sidebar */
 .action-buttons button {
     width: 100%;
     margin-bottom: 10px;
@@ -138,4 +133,10 @@
 .btn-delete {
     background-color: #DD0303 !important;
     color: white !important;
+}
+
+.btn-bought {
+    background-color: #236e00 !important;
+    color: white !important;
+    cursor: not-allowed;
 }

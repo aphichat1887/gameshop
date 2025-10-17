@@ -53,7 +53,7 @@ export class Main implements OnInit {
     this.http.get<any[]>(`${this.constants.API_ENDPOINT}/games`).subscribe({
       next: (res) => {
         this.games = res;
-        this.filteredGames = res; // เริ่มต้นให้โชว์ทั้งหมด
+        this.filteredGames = res;
       },
       error: (err) => console.error('โหลดเกมไม่สำเร็จ', err),
     });
@@ -74,7 +74,7 @@ export class Main implements OnInit {
     });
   }
   goToGameDetail(gameId: number) {
-    // ส่ง gameId ไปที่ route /game-detail/:id
+
     this.router.navigate(['/game-detail', gameId]);
   }
   logout() {

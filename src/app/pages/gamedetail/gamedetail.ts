@@ -18,9 +18,10 @@ import { Location } from '@angular/common';
   styleUrls: ['./gamedetail.scss']
 })
 export class Gamedetail implements OnInit {
-  game: any = null; // เก็บข้อมูลเกม
+  game: any = null;
   gameId: string = '';
   status: string = '';
+  alreadyPurchased: boolean = false;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private constants: Constants, private router: Router,
     private dialog: MatDialog, private location: Location) { }
@@ -30,20 +31,30 @@ export class Gamedetail implements OnInit {
     if (user) {
       const userData = JSON.parse(user);
       this.status = userData.status || '';
-    }
-    const gameId = this.route.snapshot.paramMap.get('id');
-    if (gameId) {
-      this.http.get(`${this.constants.API_ENDPOINT}/game/${gameId}`).subscribe({
-        next: (res: any) => this.game = res,
-        error: (err) => console.error('โหลดรายละเอียดเกมไม่สำเร็จ', err)
-      });
+
+      const gameId = this.route.snapshot.paramMap.get('id');
+      if (gameId) {
+        this.http.get(`${this.constants.API_ENDPOINT}/game/${gameId}`).subscribe({
+          next: (res: any) => {
+            this.game = res;
+
+
+            this.http.get(`${this.constants.API_ENDPOINT}/check-purchase/${userData.user_id}/${gameId}`)
+              .subscribe({
+                next: (check: any) => this.alreadyPurchased = check.purchased,
+                error: err => console.error('ตรวจสอบการซื้อเกมไม่สำเร็จ', err)
+              });
+          },
+          error: (err) => console.error('โหลดรายละเอียดเกมไม่สำเร็จ', err)
+        });
+      }
     }
   }
 
   loadGameDetail(id: string) {
     this.http.get<any>(`${this.constants.API_ENDPOINT}/game/${id}`).subscribe({
       next: res => {
-        this.game = res; // สมมติ API คืนข้อมูลเกมตรง ๆ
+        this.game = res;
       },
       error: err => {
         console.error('โหลดข้อมูลเกมไม่สำเร็จ', err);
@@ -62,7 +73,6 @@ export class Gamedetail implements OnInit {
       return;
     }
 
-    // เปิด dialog ยืนยันการซื้อ
     const dialogRef = this.dialog.open(PurchaseDialogComponent, {
       width: '400px'
     });
@@ -71,39 +81,61 @@ export class Gamedetail implements OnInit {
     instance.gameName = game.game_name;
     instance.gamePrice = game.price;
 
-    dialogRef.afterClosed().subscribe(confirmed => {
-      if (!confirmed) return;
+    dialogRef.afterClosed().subscribe(result => {
+    // result จะมี { confirmed: true/false, discountCode: '...' }
+    if (!result || !result.confirmed) return;
 
-      // ซื้อเกมจริง
-      fetch(`${this.constants.API_ENDPOINT}/purchase`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: user.user_id, game_id: game.game_id })
+    fetch(`${this.constants.API_ENDPOINT}/purchase`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: user.user_id,
+        game_id: game.game_id,
+        discount_code: result.discountCode  // <-- ส่งโค้ดส่วนลดด้วย
       })
-        .then(res => res.json())
-        .then(data => {
-          if (data.new_balance !== undefined) {
-            // อัปเดต localStorage
-            user.wallet_balance = data.new_balance;
-            localStorage.setItem('user', JSON.stringify(user));
-
-            alert(`ซื้อเกมสำเร็จ! ยอดเงินคงเหลือ: ${data.new_balance} บาท`);
-
-            // redirect กลับ main page
-            this.router.navigate(['/main']);
-          } else {
-            alert(data.message || 'เกิดข้อผิดพลาด');
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
-        });
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.new_balance !== undefined) {
+        user.wallet_balance = data.new_balance;
+        localStorage.setItem('user', JSON.stringify(user));
+        alert(`ซื้อเกมสำเร็จ! ยอดเงินคงเหลือ: ${data.new_balance} บาท`);
+        this.router.navigate(['/main']);
+      } else {
+        alert(data.message || 'เกิดข้อผิดพลาด');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
     });
+  });
   }
 
   goBack(): void {
     this.location.back();
+  }
+  addToCart(game: any) {
+    // ดึงตะกร้าปัจจุบันจาก localStorage
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    // ตรวจสอบว่าเกมนี้มีอยู่แล้วหรือยัง
+    const exists = cart.some((item: any) => item.game_id === game.game_id);
+    if (exists) {
+      alert('เกมนี้อยู่ในตะกร้าแล้ว');
+      return;
+    }
+
+    // เพิ่มเกมใหม่เข้าไป
+    cart.push({
+      game_id: game.game_id,
+      game_name: game.game_name,
+      price: game.price,
+      game_image: game.game_image
+    });
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert('เพิ่มเกมลงตะกร้าเรียบร้อย!');
   }
 
 }

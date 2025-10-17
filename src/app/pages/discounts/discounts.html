@@ -1,0 +1,32 @@
+<app-header></app-header>
+
+<div class="container">
+    <div class="card">
+        <h2>เพิ่มโค้ดส่วนลด</h2>
+
+        <div class="form-group">
+            <label>รหัสส่วนลด</label>
+            <input type="text" [(ngModel)]="discount_code" placeholder="เช่น SAVE50" />
+        </div>
+
+        <div class="form-group">
+            <label>จำนวนส่วนลด</label>
+            <input type="number" [(ngModel)]="discount_amount" placeholder="จำนวนเงินหรือเปอร์เซ็นต์" />
+        </div>
+
+        <div class="form-group">
+            <label>ประเภทส่วนลด</label>
+            <select [(ngModel)]="discount_type">
+                <option value="flat">ลดเป็นจำนวนเงิน (บาท)</option>
+                <option value="percent">ลดเป็นเปอร์เซ็นต์ (%)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>จำนวนครั้งที่ใช้ได้</label>
+            <input type="number" [(ngModel)]="usage_limit" placeholder="จำนวนครั้งที่ใช้โค้ดได้" />
+        </div>
+
+        <button (click)="addDiscount()">เพิ่มโค้ด</button>
+    </div>
+</div>

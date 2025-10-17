@@ -1,8 +1,7 @@
-/* ใช้ตัวแปรสีเพื่อความสอดคล้อง */
 :host {
   --primary-orange: #FAB12F;
   --dark-blue: #0D0D39;
-  --page-bg: #FEF3E2; /* สีพื้นหลังครีมๆ */
+  --page-bg: #FEF3E2;
 }
 
 .history-container {
@@ -34,11 +33,11 @@
   margin-bottom: 1rem;
 }
 
-/* ส่วนของประวัติการซื้อเกม */
+
 .game-list {
   display: flex;
-  gap: 20px; /* ระยะห่างระหว่างการ์ด */
-  flex-wrap: wrap; /* ให้ขึ้นบรรทัดใหม่ถ้าไม่พอ */
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .game-card {
@@ -68,19 +67,20 @@
   }
 }
 
-/* ส่วนของประวัติการเติมเงิน */
+
 .table-container {
-  overflow-x: auto; /* ทำให้ตาราง scroll ได้ในจอเล็ก */
+  overflow-x: auto;
 }
 
 .history-table {
   width: 100%;
-  border-collapse: collapse; /* ทำให้เส้นขอบติดกัน */
+  border-collapse: collapse;
   border-radius: 8px;
-  overflow: hidden; /* สำคัญมากเพื่อให้ border-radius แสดงผลที่ a */
+  overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
-  th, td {
+  th,
+  td {
     padding: 12px 15px;
     text-align: left;
   }
@@ -94,8 +94,9 @@
   tbody tr {
     border-bottom: 1px solid #ddd;
     background-color: #fff;
+
     &:nth-of-type(even) {
-        background-color: #f3f3f3; /* สลับสีแถว */
+      background-color: #f3f3f3;
     }
   }
 }

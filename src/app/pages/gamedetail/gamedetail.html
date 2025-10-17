@@ -36,14 +36,22 @@
         </div>
 
         <div class="action-buttons">
-            <button mat-raised-button class="btn-addcart" *ngIf="status === 'user'">
+            <button mat-raised-button class="btn-addcart" *ngIf="status === 'user'" (click)="addToCart(game)">
                 <mat-icon>shopping_cart</mat-icon>
                 <span>เพิ่มลงตะกร้า</span>
             </button>
-            <button mat-raised-button class="btn-buy" *ngIf="status === 'user'" (click)="buyGame(game)">
+
+            <button mat-raised-button class="btn-buy" *ngIf="status === 'user' && !alreadyPurchased"
+                (click)="buyGame(game)">
                 <mat-icon>shopping_bag</mat-icon>
                 <span>ซื้อเลย</span>
             </button>
+
+            <button mat-raised-button class="btn-bought" *ngIf="status === 'user' && alreadyPurchased">
+                <mat-icon>check_circle</mat-icon>
+                <span>ซื้อแล้ว</span>
+            </button>
+
             <div *ngIf="status === 'admin'">
                 <button mat-raised-button class="btn-edit" (click)="goToEditGame(game.game_id)">แก้ไขเกม</button>
                 <button mat-raised-button class="btn-delete">ลบเกม</button>

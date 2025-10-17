@@ -6,25 +6,25 @@
 
         <form (submit)="onUpdate($event)" enctype="multipart/form-data" class="edit-game-form">
 
-            <!-- ชื่อเกม -->
+
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>ชื่อเกม</mat-label>
                 <input matInput type="text" [(ngModel)]="game.game_name" name="game_name" required />
             </mat-form-field>
 
-            <!-- คำอธิบาย -->
+
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>คำอธิบาย</mat-label>
                 <textarea matInput [(ngModel)]="game.description" name="description" required rows="4"></textarea>
             </mat-form-field>
 
-            <!-- ราคา -->
+
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>ราคา</mat-label>
                 <input matInput type="number" [(ngModel)]="game.price" name="price" required />
             </mat-form-field>
 
-            <!-- อัปโหลดรูปภาพเกม -->
+
             <div class="file-upload">
                 <label for="game_image" class="upload-btn">เลือกรูปภาพเกม</label>
                 <input id="game_image" type="file" (change)="onFileSelected($event)" hidden />
@@ -33,10 +33,9 @@
                 </div>
             </div>
 
-            <!-- ปุ่มบันทึก -->
+
             <button class="btn save-btn" type="submit">บันทึกการแก้ไข</button>
 
-            <!-- ปุ่มลบเกม -->
             <button type="button" class="btn delete-btn" (click)="onDelete(game.game_id)">
                 ลบเกม
             </button>

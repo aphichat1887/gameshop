@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<div class="cart-container" *ngIf="cart.length > 0; else emptyCart">
+    <button mat-button (click)="goBack()">ย้อนกลับ</button>
+    <h2>ตะกร้าเกมของคุณ</h2>
+
+    <div class="cart-list">
+        <div class="cart-item" *ngFor="let game of cart">
+            <div class="cart-info">
+                <span class="game-name">{{ game.game_name }}</span>
+                <span class="game-price">{{ game.price | number }} บาท</span>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeFromCart(game.game_id)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="cart-summary">
+        <h3>รวมทั้งหมด: {{ totalPrice | number }} บาท</h3>
+        <button mat-raised-button color="warn" (click)="clearCart()">ล้างตะกร้า</button>
+    </div>
+</div>
+
+<ng-template #emptyCart>
+    <div class="empty">
+        <p>ยังไม่มีเกมในตะกร้า</p>
+        <button mat-raised-button (click)="goBack()">กลับไปเลือกเกม</button>
+    </div>
+</ng-template>

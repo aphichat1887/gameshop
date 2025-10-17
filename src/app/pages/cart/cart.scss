@@ -1,0 +1,48 @@
+.cart-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.cart-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fafafa;
+}
+
+.cart-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-name {
+    font-weight: bold;
+}
+
+.game-price {
+    color: #555;
+    font-size: 14px;
+}
+
+.cart-summary {
+    margin-top: 2rem;
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.empty {
+    text-align: center;
+    margin-top: 4rem;
+}
