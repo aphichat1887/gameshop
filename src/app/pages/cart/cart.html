@@ -17,8 +17,32 @@
     </div>
 
     <div class="cart-summary">
+        <div class="discount-section">
+            <mat-form-field appearance="outline">
+                <mat-label>เลือกโค้ดส่วนลด</mat-label>
+                <mat-select [(ngModel)]="discountCode" name="discountCode" (selectionChange)="applyDiscount()">
+                    <mat-option *ngFor="let d of discounts" [value]="d.discount_code">
+                        {{ d.discount_code }} -
+                        <span *ngIf="d.discount_type === 'percent'">ลด {{ d.discount_amount * 100 }}%</span>
+                        <span *ngIf="d.discount_type === 'flat'">ลด {{ d.discount_amount }} บาท</span>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
         <h3>รวมทั้งหมด: {{ totalPrice | number }} บาท</h3>
-        <button mat-raised-button color="warn" (click)="clearCart()">ล้างตะกร้า</button>
+
+        <!-- แสดงส่วนลดถ้ามี -->
+        <div *ngIf="discountApplied">
+            <p>ใช้ส่วนลดแล้ว: <strong>{{ discountValue }} บาท</strong></p>
+            <p>ยอดหลังหักส่วนลด: <strong>{{ finalPrice | number }} บาท</strong></p>
+        </div>
+
+        <!-- 🔹 ปุ่มจัดการ -->
+        <div class="action-buttons">
+            <button mat-raised-button color="accent" (click)="purchaseAll()">ซื้อเกมทั้งหมด</button>
+            <button mat-raised-button color="warn" (click)="clearCart()">ล้างตะกร้า</button>
+        </div>
     </div>
 </div>
 

@@ -67,75 +67,93 @@ export class Gamedetail implements OnInit {
   }
 
   buyGame(game: any) {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (!user.user_id) {
-      alert('กรุณาเข้าสู่ระบบก่อนซื้อเกม');
-      return;
-    }
-
-    const dialogRef = this.dialog.open(PurchaseDialogComponent, {
-      width: '400px'
-    });
-
-    const instance = dialogRef.componentInstance;
-    instance.gameName = game.game_name;
-    instance.gamePrice = game.price;
-
-    dialogRef.afterClosed().subscribe(result => {
-    // result จะมี { confirmed: true/false, discountCode: '...' }
-    if (!result || !result.confirmed) return;
-
-    fetch(`${this.constants.API_ENDPOINT}/purchase`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user_id: user.user_id,
-        game_id: game.game_id,
-        discount_code: result.discountCode  // <-- ส่งโค้ดส่วนลดด้วย
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.new_balance !== undefined) {
-        user.wallet_balance = data.new_balance;
-        localStorage.setItem('user', JSON.stringify(user));
-        alert(`ซื้อเกมสำเร็จ! ยอดเงินคงเหลือ: ${data.new_balance} บาท`);
-        this.router.navigate(['/main']);
-      } else {
-        alert(data.message || 'เกิดข้อผิดพลาด');
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
-    });
-  });
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!user.user_id) {
+    alert('กรุณาเข้าสู่ระบบก่อนซื้อเกม');
+    return;
   }
+
+  // ดึงส่วนลดที่ยังไม่ใช้
+  this.http.get(`${this.constants.API_ENDPOINT}/discounts/available/${user.user_id}`)
+    .subscribe({
+      next: (availableDiscounts) => {
+        const dialogRef = this.dialog.open(PurchaseDialogComponent, {
+          width: '400px',
+          data: { game, discounts: availableDiscounts } // ส่งส่วนลดไปที่ dialog
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (!result || !result.confirmed) return;
+
+          fetch(`${this.constants.API_ENDPOINT}/purchase`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              user_id: user.user_id,
+              game_id: game.game_id,
+              discount_code: result.discountCode
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.new_balance !== undefined) {
+              user.wallet_balance = data.new_balance;
+              localStorage.setItem('user', JSON.stringify(user));
+              alert(`ซื้อเกมสำเร็จ! ยอดเงินคงเหลือ: ${data.new_balance} บาท`);
+              this.router.navigate(['/main']);
+            } else {
+              alert(data.message || 'เกิดข้อผิดพลาด');
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            alert('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
+          });
+        });
+      },
+      error: err => {
+        console.error('ไม่สามารถโหลดส่วนลดได้', err);
+        alert('ไม่สามารถโหลดส่วนลดได้ตอนนี้');
+      }
+    });
+}
 
   goBack(): void {
     this.location.back();
   }
   addToCart(game: any) {
-    // ดึงตะกร้าปัจจุบันจาก localStorage
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-
-    // ตรวจสอบว่าเกมนี้มีอยู่แล้วหรือยัง
-    const exists = cart.some((item: any) => item.game_id === game.game_id);
-    if (exists) {
-      alert('เกมนี้อยู่ในตะกร้าแล้ว');
-      return;
-    }
-
-    // เพิ่มเกมใหม่เข้าไป
-    cart.push({
-      game_id: game.game_id,
-      game_name: game.game_name,
-      price: game.price,
-      game_image: game.game_image
-    });
-
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert('เพิ่มเกมลงตะกร้าเรียบร้อย!');
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (!user.user_id) {
+    alert('กรุณาเข้าสู่ระบบก่อนเพิ่มเกมในตะกร้า');
+    return;
   }
+
+  // ✅ ถ้าซื้อแล้ว ให้บอกและหยุดทำงานเลย
+  if (this.alreadyPurchased) {
+    alert('คุณได้ซื้อเกมนี้แล้ว ไม่สามารถเพิ่มลงในตะกร้าได้');
+    return;
+  }
+
+  // ✅ ดึงตะกร้าปัจจุบัน
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  // ✅ ตรวจสอบว่าเกมนี้มีในตะกร้าอยู่แล้วหรือไม่
+  const exists = cart.some((item: any) => item.game_id === game.game_id);
+  if (exists) {
+    alert('เกมนี้อยู่ในตะกร้าแล้ว');
+    return;
+  }
+
+  // ✅ เพิ่มเกมใหม่เข้าไป
+  cart.push({
+    game_id: game.game_id,
+    game_name: game.game_name,
+    price: game.price,
+    game_image: game.game_image
+  });
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert('เพิ่มเกมลงตะกร้าเรียบร้อย!');
+}
 
 }

@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Constants } from '../../config/constants';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,8 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-purchase-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule,
-     FormsModule, HttpClientModule, MatFormFieldModule, MatInputModule, MatSelectModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule],
   template: `
     <h2 mat-dialog-title>ยืนยันการซื้อเกม</h2>
 
@@ -49,18 +46,14 @@ export class PurchaseDialogComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<PurchaseDialogComponent>,
-    private http: HttpClient,
-    private constants: Constants
+    @Inject(MAT_DIALOG_DATA) private data: any
   ) {}
 
   ngOnInit() {
+    this.gameName = this.data.game.game_name;
+    this.gamePrice = this.data.game.price;
+    this.discounts = this.data.discounts || [];
     this.finalPrice = this.gamePrice;
-
-    // ดึงโค้ดส่วนลดจาก backend
-    this.http.get<any[]>(`${this.constants.API_ENDPOINT}/discounts`).subscribe({
-      next: (data) => this.discounts = data,
-      error: (err) => console.error('โหลดโค้ดส่วนลดไม่สำเร็จ', err)
-    });
   }
 
   calculateFinalPrice() {
